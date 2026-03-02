@@ -1,8 +1,8 @@
 # Course repository
 
-Please read [the documentation](docs/en/index.md) for more information about the project.
+Please read the [documentation](docs/en/index.md) for more information about the course.
 
-Proszę przeczytać [dokumentację](docs/pl/index.md) aby dowiedzieć się więcej o projekcie.
+Proszę przeczytać [dokumentację](docs/pl/index.md) aby dowiedzieć się więcej o kursie.
 
 # Links/Linki
 
