@@ -1,29 +1,77 @@
 # Problem 8: Circular Motion
 
-We calculate the centripetal acceleration of a person standing at Earth's equator.
+We calculate the centripetal acceleration of a person standing on the Earth's equator.
 
-Earth radius:
+The formula for centripetal acceleration is
 
-R = 6378 km = 6.378×10^6 m
+$$
+a_c = \omega^2 R
+$$
 
-Earth rotation period:
+where \(R\) is the Earth's radius and \(\omega\) is the angular velocity.
 
-T = 24 h = 86400 s
+---
 
-Angular velocity:
+## 1. Given data
 
-ω = 2π / T
+Earth's radius:
 
-ω ≈ 7.27×10^-5 rad/s
+$$
+R = 6378\ \text{km} = 6.378\times 10^6\ \text{m}
+$$
 
-Centripetal acceleration:
+Earth's rotation period:
 
-a = ω²R
+$$
+T = 24\ \text{h} = 86400\ \text{s}
+$$
 
-a = (7.27×10^-5)² × 6.378×10^6
+---
 
-a ≈ 0.034 m/s²
+## 2. Angular velocity
 
-Therefore, the centripetal acceleration at the Earth's equator is approximately
+The angular velocity is
 
-a ≈ 0.034 m/s²
+$$
+\omega = \frac{2\pi}{T}
+$$
+
+Substitute the value of \(T\):
+
+$$
+\omega = \frac{2\pi}{86400}
+$$
+
+$$
+\omega \approx 7.27\times 10^{-5}\ \text{rad/s}
+$$
+
+---
+
+## 3. Centripetal acceleration
+
+Now use
+
+$$
+a_c = \omega^2 R
+$$
+
+Substitute the values:
+
+$$
+a_c = (7.27\times 10^{-5})^2 \cdot 6.378\times 10^6
+$$
+
+$$
+a_c \approx 0.034\ \text{m/s}^2
+$$
+
+---
+
+## Final answer
+
+The centripetal acceleration of a person standing on the Earth's equator is
+
+$$
+\boxed{a_c \approx 0.034\ \text{m/s}^2}
+$$
