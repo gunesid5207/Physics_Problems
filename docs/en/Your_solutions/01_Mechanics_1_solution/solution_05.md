@@ -3,18 +3,20 @@
 A river flows east at
 
 $$
-2 \text{ m/s}
+2\ \text{m/s}
 $$
 
 A boat can travel at
 
 $$
-5 \text{ m/s}
+5\ \text{m/s}
 $$
 
 in still water and wants to go directly north across the river.
 
-## Step 1: Choose velocity components
+---
+
+## 1. Choose velocity components
 
 Let east be the positive \(x\)-direction and north be the positive \(y\)-direction.
 
@@ -27,16 +29,16 @@ $$
 Let the boat head at an angle \(\theta\) west of north. Then its velocity relative to the water is
 
 $$
-\vec{v}_{b/r} = (-5\sin\theta, 5\cos\theta)
+\vec{v}_{b/w} = (-5\sin\theta,\ 5\cos\theta)
 $$
 
-The actual velocity of the boat relative to the ground is
+The actual velocity relative to the ground is
 
 $$
-\vec{v}_{b/g} = \vec{v}_{b/r} + \vec{v}_r
+\vec{v}_{b/g} = \vec{v}_{b/w} + \vec{v}_r
 $$
 
-Since the boat wants to go directly north, the horizontal component must be zero:
+Since the boat wants to move directly north, the horizontal component must be zero:
 
 $$
 -5\sin\theta + 2 = 0
@@ -64,9 +66,11 @@ $$
 
 west of north.
 
-## Step 2: Find the northward speed
+---
 
-The northward component is
+## 2. Northward speed
+
+The northward speed is
 
 $$
 v_y = 5\cos\theta
@@ -75,34 +79,40 @@ $$
 Using
 
 $$
-\cos\theta = \sqrt{1-\sin^2\theta} = \sqrt{1-\left(\frac{2}{5}\right)^2}
-= \sqrt{\frac{21}{25}} = \frac{\sqrt{21}}{5}
+\cos\theta = \sqrt{1-\sin^2\theta}
+= \sqrt{1-\left(\frac{2}{5}\right)^2}
+= \sqrt{\frac{21}{25}}
+= \frac{\sqrt{21}}{5}
 $$
 
 we get
 
 $$
-v_y = 5 \cdot \frac{\sqrt{21}}{5} = \sqrt{21} \approx 4.58 \text{ m/s}
+v_y = 5 \cdot \frac{\sqrt{21}}{5} = \sqrt{21} \approx 4.58\ \text{m/s}
 $$
 
-## Step 3: Find the crossing time
+---
 
-The river is 200 m wide, so
+## 3. Crossing time
+
+The river is 200 m wide, so the crossing time is
 
 $$
-t = \frac{200}{4.58} \approx 43.6 \text{ s}
+t = \frac{200}{4.58} \approx 43.6\ \text{s}
 $$
 
-## Final answer
+---
+
+## Final answers
 
 The boat should head
 
 $$
-\boxed{23.6^\circ \text{ west of north}}
+\boxed{23.6^\circ\ \text{west of north}}
 $$
 
 and the time to cross the river is
 
 $$
-\boxed{43.6 \text{ s}}
+\boxed{43.6\ \text{s}}
 $$
