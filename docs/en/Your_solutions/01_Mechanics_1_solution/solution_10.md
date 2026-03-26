@@ -6,33 +6,25 @@ $$
 \vec{r}(t) = (a\cos(\omega t),\, b\sin(\omega t),\, bt)
 $$
 
-where \(a\), \(b\), and \(\omega\) are positive constants.
+where \(a, b, \omega\) are positive constants.
 
 ---
 
 ## a) Equation of the trajectory
 
-We are given
+We have
 
 $$
-x(t)=a\cos(\omega t)
+x(t)=a\cos(\omega t),\qquad y(t)=b\sin(\omega t),\qquad z(t)=bt
 $$
 
-$$
-y(t)=b\sin(\omega t)
-$$
+From the first two:
 
 $$
-z(t)=bt
+\cos(\omega t)=\frac{x}{a},\qquad \sin(\omega t)=\frac{y}{b}
 $$
 
-From the first two equations
-
-$$
-\cos(\omega t)=\frac{x}{a}, \qquad \sin(\omega t)=\frac{y}{b}
-$$
-
-Using the trigonometric identity
+Using
 
 $$
 \cos^2(\omega t)+\sin^2(\omega t)=1
@@ -49,46 +41,29 @@ Thus, the motion in the \(xy\)-plane is an ellipse.
 Since
 
 $$
-z=bt \quad \Rightarrow \quad t=\frac{z}{b}
+z=bt \Rightarrow t=\frac{z}{b}
 $$
 
-we can also write
+we can write
 
 $$
-x=a\cos\left(\omega \frac{z}{b}\right)
-$$
-
-$$
+x=a\cos\left(\omega \frac{z}{b}\right),\qquad
 y=b\sin\left(\omega \frac{z}{b}\right)
 $$
 
-Therefore the trajectory in space is an **elliptical helix**.
+Therefore, the trajectory is an **elliptical helix**.
 
 ---
 
-## b) Path length from \(t=0\) to \(t=t_0\)
+## b) Path length
 
-Velocity is the derivative of the position vector
+Velocity is
 
 $$
 \vec{v}(t)=\frac{d\vec{r}}{dt}
 $$
 
-Differentiate each component:
-
-$$
-\frac{dx}{dt}=-a\omega \sin(\omega t)
-$$
-
-$$
-\frac{dy}{dt}=b\omega \cos(\omega t)
-$$
-
-$$
-\frac{dz}{dt}=b
-$$
-
-Thus
+Differentiate:
 
 $$
 \vec{v}(t)=(-a\omega \sin(\omega t),\, b\omega \cos(\omega t),\, b)
@@ -100,63 +75,47 @@ $$
 |\vec{v}(t)|=\sqrt{a^2\omega^2\sin^2(\omega t)+b^2\omega^2\cos^2(\omega t)+b^2}
 $$
 
-The path length from \(0\) to \(t_0\) is therefore
+The path length from \(0\) to \(t_0\) is
 
 $$
-L=\int_0^{t_0}|\vec{v}(t)|\,dt
-$$
-
-so
-
-$$
-L=\int_0^{t_0}\sqrt{a^2\omega^2\sin^2(\omega t)+b^2\omega^2\cos^2(\omega t)+b^2}\,dt
+L=\int_0^{t_0} |\vec{v}(t)|\,dt
 $$
 
 ---
 
-## c) Trajectory and special cases
+## c) Special cases
 
-The motion describes an **elliptical helix** in space.
-
-### Special case 1: \(a=b\)
-
-The ellipse becomes a circle
+### Case 1: \(a=b\)
 
 $$
 x^2+y^2=a^2
 $$
 
-and the motion becomes a **circular helix**.
+The motion becomes a **circular helix**.
 
-### Special case 2: \(\omega=0\)
-
-Then
+### Case 2: \(\omega=0\)
 
 $$
 x=a,\qquad y=0,\qquad z=bt
 $$
 
-which represents straight-line motion parallel to the \(z\)-axis.
+This is straight-line motion along the \(z\)-axis.
 
-### Special case 3: \(b=0\)
-
-Then
+### Case 3: \(b=0\)
 
 $$
 y=0,\qquad z=0
 $$
 
-so the motion reduces to
-
 $$
 x=a\cos(\omega t)
 $$
 
-which is one-dimensional oscillatory motion along the \(x\)-axis.
+This is one-dimensional motion along the \(x\)-axis.
 
 ---
 
-## Final result
+## Final answer
 
 The trajectory satisfies
 
@@ -170,19 +129,7 @@ $$
 z=bt
 $$
 
-so the particle moves along an **elliptical helix**.
-
-The velocity vector is
-
-$$
-\vec{v}(t)=(-a\omega \sin(\omega t),\, b\omega \cos(\omega t),\, b)
-$$
-
-and the arc length from \(0\) to \(t_0\) is
-
-$$
-L=\int_0^{t_0}\sqrt{a^2\omega^2\sin^2(\omega t)+b^2\omega^2\cos^2(\omega t)+b^2}\,dt
-$$
+so it is an **elliptical helix**.
 
 ---
 
