@@ -1,148 +1,156 @@
 # Problem 7: Elimination of Time and Acceleration
 
-The parametric equations are:
+The parametric equations are
 
 $$
-x(t) = 2t^2
-$$
-
-$$
-y(t) = 3t^3
+x(t)=2t^2,\qquad y(t)=3t^3
 $$
 
 ---
 
-# 1. Eliminate the parameter t
+## 1. Eliminate the parameter \(t\)
 
 From
 
 $$
-x = 2t^2
+x=2t^2
 $$
 
-we solve for \(t\):
+we get
 
 $$
-t = \sqrt{\frac{x}{2}}
+t=\sqrt{\frac{x}{2}}
 $$
 
-Substitute into the equation for y:
+Substitute into \(y(t)\):
 
 $$
-y = 3t^3
+y=3t^3 = 3\left(\sqrt{\frac{x}{2}}\right)^3
 $$
 
-$$
-y = 3\left(\sqrt{\frac{x}{2}}\right)^3
-$$
+Thus,
 
 $$
 y = 3\left(\frac{x}{2}\right)^{3/2}
 $$
 
-So the trajectory is
-
-$$
-y = 3\left(\frac{x}{2}\right)^{3/2}
-$$
+This is the equation of the trajectory.
 
 ---
 
-# 2. Velocity vector
+## 2. Velocity vector
 
-Velocity is the derivative of position:
+Velocity is
 
 $$
-\vec v(t) = \frac{d\vec r}{dt}
+\vec{v}(t)=\frac{d\vec{r}}{dt}
 $$
 
 Differentiate:
 
 $$
-v_x = \frac{dx}{dt} = 4t
+v_x=\frac{dx}{dt}=4t
 $$
 
 $$
-v_y = \frac{dy}{dt} = 9t^2
+v_y=\frac{dy}{dt}=9t^2
 $$
 
-Therefore
+So,
 
 $$
-\vec v(t) = (4t, 9t^2)
-$$
-
-Speed:
-
-$$
-|\vec v| = \sqrt{(4t)^2 + (9t^2)^2}
-$$
-
-$$
-|\vec v| = \sqrt{16t^2 + 81t^4}
+\vec{v}(t) = (4t,\ 9t^2)
 $$
 
 ---
 
-# 3. Acceleration vector
+## 3. Speed
 
-Acceleration is the derivative of velocity:
+The magnitude of velocity is
 
 $$
-\vec a(t) = \frac{d\vec v}{dt}
+|\vec{v}(t)|=\sqrt{(4t)^2+(9t^2)^2}
+$$
+
+$$
+|\vec{v}(t)|=\sqrt{16t^2+81t^4}
+$$
+
+---
+
+## 4. Acceleration vector
+
+Acceleration is
+
+$$
+\vec{a}(t)=\frac{d\vec{v}}{dt}
 $$
 
 Differentiate:
 
 $$
-a_x = 4
+a_x=4
 $$
 
 $$
-a_y = 18t
+a_y=18t
 $$
 
-So
+So,
 
 $$
-\vec a(t) = (4, 18t)
-$$
-
-Magnitude:
-
-$$
-|\vec a| = \sqrt{4^2 + (18t)^2}
-$$
-
-$$
-|\vec a| = \sqrt{16 + 324t^2}
+\vec{a}(t) = (4,\ 18t)
 $$
 
 ---
 
-# 4. Is acceleration constant?
+## 5. Magnitude of acceleration
+
+$$
+|\vec{a}(t)|=\sqrt{4^2+(18t)^2}
+$$
+
+$$
+|\vec{a}(t)|=\sqrt{16+324t^2}
+$$
+
+---
+
+## 6. Is the acceleration constant?
 
 The acceleration vector is
 
 $$
-\vec a(t) = (4, 18t)
+\vec{a}(t) = (4,\ 18t)
 $$
 
-Since the y-component depends on time, the acceleration is **not constant**.
+Since the \(y\)-component depends on \(t\), the acceleration is not constant.
 
 ---
 
-# 5. Trajectory plot
+## Final answers
 
-The trajectory follows the curve
+Trajectory:
 
 $$
 y = 3\left(\frac{x}{2}\right)^{3/2}
 $$
 
-and represents a nonlinear path.
+Velocity:
 
-The trajectory can be plotted using Python.
+$$
+\vec{v}(t) = (4t,\ 9t^2)
+$$
+
+Acceleration:
+
+$$
+\vec{a}(t) = (4,\ 18t)
+$$
+
+Acceleration is not constant.
+
+---
 
 ## Trajectory Plot
 
