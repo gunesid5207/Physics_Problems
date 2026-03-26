@@ -2,45 +2,88 @@
 
 Alice moves along the path
 
-A(t) = (2 + t , 8 − 3t)
+$$
+A(t) = (2+t,\ 8-3t)
+$$
 
-Bob moves along the path
+and Bob moves along the path
 
-B(t) = (2t − 1 , 2t + 2)
+$$
+B(t) = (2t-1,\ 2t+2)
+$$
 
-We check whether their paths intersect.
+We want to determine whether their paths intersect, and if so, when and where they collide.
 
-## Step 1: Set positions equal
+---
 
-For intersection:
+## 1. Condition for collision
 
-2 + t = 2t − 1  
-8 − 3t = 2t + 2
+For a collision, both position coordinates must be equal at the same time \(t\):
 
-## Step 2: Solve first equation
+$$
+2+t = 2t-1
+$$
 
-2 + t = 2t − 1
+and
 
+$$
+8-3t = 2t+2
+$$
+
+---
+
+## 2. Solve the first equation
+
+$$
+2+t = 2t-1
+$$
+
+Subtract \(t\) from both sides:
+
+$$
+2 = t-1
+$$
+
+Add 1 to both sides:
+
+$$
 t = 3
+$$
 
-## Step 3: Check second equation
+---
 
-Substitute t = 3:
+## 3. Check the second equation
 
-Left side:
+Substitute \(t=3\):
 
-8 − 3(3) = 8 − 9 = −1
+Left-hand side:
 
-Right side:
+$$
+8 - 3(3) = 8 - 9 = -1
+$$
 
-2(3) + 2 = 8
+Right-hand side:
 
-−1 ≠ 8
+$$
+2(3) + 2 = 6 + 2 = 8
+$$
 
-## Conclusion
+Since
 
-The equations are not satisfied simultaneously.
+$$
+-1 \ne 8
+$$
 
-Therefore Alice and Bob **do not collide**.
+the second equation is not satisfied.
 
-Their paths do not intersect.
+---
+
+## 4. Conclusion
+
+The two position vectors are not equal at the same time, so Alice and Bob do **not** collide.
+
+Therefore, their paths do **not** intersect at the same instant of time.
+
+## Final answer
+
+Alice and Bob do not collide, because there is no value of \(t\) that satisfies both coordinate equations simultaneously.
