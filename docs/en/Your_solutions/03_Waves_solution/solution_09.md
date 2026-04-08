@@ -31,7 +31,7 @@ $$
 r_{1,2} = \frac{-b \pm \sqrt{b^2 - 4mk}}{2m}
 $$
 
-The behavior depends on the discriminant
+The behavior of the system depends on the discriminant
 
 $$
 \Delta = b^2 - 4mk
@@ -113,7 +113,7 @@ This motion does not oscillate and returns to equilibrium more slowly than the c
 
 ## 3. Numerical solution
 
-To study the system numerically, we rewrite the second-order equation as a system of two first-order equations:
+To solve the equation numerically, we rewrite the second-order equation as a system of two first-order equations:
 
 $$
 \frac{dx}{dt} = v
@@ -123,38 +123,56 @@ $$
 \frac{dv}{dt} = -\frac{b}{m}v - \frac{k}{m}x
 $$
 
-This system can be solved using the fourth-order Runge-Kutta (RK4) method.
+We solve this system using the fourth-order Runge-Kutta (RK4) method.
+
+### Numerical setup
+
+In the animation, we use:
+- $x(0) = 1$
+- $v(0) = 0$
+- time step $\Delta t = 0.01$
+- time interval $t \in [0, 10]$
+
+These values are sufficient to clearly compare the underdamped, critically damped, and overdamped regimes.
 
 ## 4. Effect of parameter $b$
 
-The parameter $b$ controls the damping strength:
+The parameter $b$ determines the strength of damping:
 
-- small $b$: oscillatory motion with slow decay,
-- critical $b = 2\sqrt{mk}$: fastest non-oscillatory return,
-- large $b$: non-oscillatory motion with slower return.
+- for small $b$, the motion is oscillatory and slowly decays,
+- for $b^2 = 4mk$, the system is critically damped and returns to equilibrium as fast as possible without oscillation,
+- for large $b$, the system is overdamped and returns to equilibrium without oscillation, but more slowly.
+
+Thus, increasing $b$ suppresses oscillations and changes the shape of both the displacement graph and the phase portrait.
 
 ## 5. Graph of $x(t)$
 
-The graph of $x(t)$ shows how the displacement changes with time.
+The graph of $x(t)$ shows the displacement as a function of time.
 
-- In the underdamped case, $x(t)$ oscillates and decays.
-- In the critically damped case, $x(t)$ returns to zero without oscillation.
-- In the overdamped case, $x(t)$ also returns without oscillation, but more slowly.
+- In the underdamped case, the graph oscillates with decreasing amplitude.
+- In the critically damped case, the displacement returns to zero without oscillation and does so in the shortest possible time.
+- In the overdamped case, the displacement also returns to zero without oscillation, but more slowly.
 
 ## 6. Phase portrait
 
-The phase portrait is the graph of velocity versus displacement, that is, $(x,v)$.
+The phase portrait is the graph in the $(x,v)$ plane, where $v = dx/dt$.
 
 - In the underdamped case, the trajectory spirals toward the origin.
-- In the critically damped case, it approaches the origin without spiraling.
-- In the overdamped case, it also approaches the origin without oscillation.
+- In the critically damped case, the trajectory approaches the origin without spiraling.
+- In the overdamped case, the trajectory also approaches the origin without oscillation.
+
+The origin $(0,0)$ represents the equilibrium state.
 
 ## Final Answer
 
-The damped oscillator has three regimes determined by the value of $b$ relative to $2\sqrt{mk}$:
+The damped harmonic oscillator has three regimes determined by the sign of
 
-- **Underdamped:** $b < 2\sqrt{mk}$
-- **Critically damped:** $b = 2\sqrt{mk}$
-- **Overdamped:** $b > 2\sqrt{mk}$
+$$
+b^2 - 4mk
+$$
 
-The attached HTML animation solves the system numerically using RK4 and displays both the displacement $x(t)$ and the phase portrait while allowing interactive control of the damping parameter $b$.
+- **Underdamped:** $b^2 < 4mk$
+- **Critically damped:** $b^2 = 4mk$
+- **Overdamped:** $b^2 > 4mk$
+
+The equation can be rewritten as a first-order system and solved numerically using RK4. The interactive HTML animation should allow the user to change the damping coefficient $b$ and observe both the displacement graph $x(t)$ and the phase portrait $(x,v)$ for all three regimes.
