@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wave Sources</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+canvas {
+    border: 1px solid black;
+    cursor: crosshair;
+}
+
+.controls {
+    margin-bottom: 15px;
+}
+
+button {
+    margin-left: 10px;
+    padding: 5px 10px;
+}
+</style>
+</head>
+<body>
+
+<h2>Wave Sources Animation</h2>
+
+<div class="controls">
+    <label for="alphaSlider">alpha: </label>
+    <input type="range" id="alphaSlider" min="0" max="2" step="0.05" value="1">
+    <span id="alphaValue">1.00</span>
+
+    <label for="lambdaSlider" style="margin-left:20px;">lambda: </label>
+    <input type="range" id="lambdaSlider" min="20" max="120" step="1" value="60">
+    <span id="lambdaValue">60</span>
+
+    <button id="clearBtn">Clear Sources</button>
+</div>
+
+<p>Click on the canvas to add wave sources.</p>
+
+<canvas id="waveCanvas" width="700" height="500"></canvas>
+
+<script>
+const canvas = document.getElementById("waveCanvas");
+const ctx = canvas.getContext("2d");
+
+const alphaSlider = document.getElementById("alphaSlider");
+const alphaValue = document.getElementById("alphaValue");
+
+const lambdaSlider = document.getElementById("lambdaSlider");
+const lambdaValue = document.getElementById("lambdaValue");
+
+const clearBtn = document.getElementById("clearBtn");
+
+const width = canvas.width;
+const height = canvas.height;
+
+const A = 1.0;
+const f = 0.08;
+let time = 0;
+
+const sources = [];
+
+// Keep the original blocky look, but slightly cleaner
+const resolution = 3;
+
+alphaSlider.oninput = () => {
+    alphaValue.textContent = Number(alphaSlider.value).toFixed(2);
+};
+
+lambdaSlider.oninput = () => {
+    lambdaValue.textContent = lambdaSlider.value;
+};
+
+clearBtn.onclick = () => {
+    sources.length = 0;
+};
+
+canvas.addEventListener("click", (event) => {
+    const rect = canvas.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+    sources.push({ x, y });
+});
+
+function getFieldValue(px, py, alpha, lambda) {
+    const k = 2 * Math.PI / lambda;
+    const omega = 2 * Math.PI * f;
+
+    let u = 0;
+
+    for (const s of sources) {
+        const dx = px - s.x;
+        const dy = py - s.y;
+        let r = Math.sqrt(dx * dx + dy * dy);
+
+        // Avoid division problems near the source
+        r = Math.max(r, 1);
+
+        u += (A / Math.pow(r, alpha)) * Math.sin(k * r - omega * time);
+    }
+
+    // Mild clamp only to prevent extreme overflow with many sources
+    return Math.max(-1.2, Math.min(1.2, u * 3));
+}
+
+function valueToColor(u) {
+    let c = Math.max(-1, Math.min(1, u));
+
+    if (c >= 0) {
+        const red = Math.floor(255 * c);
+        const green = Math.floor(255 * (1 - c));
+        const blue = Math.floor(255 * (1 - c));
+        return `rgb(${red},${green},${blue})`;
+    } else {
+        c = -c;
+        const blue = Math.floor(255 * c);
+        const green = Math.floor(255 * (1 - c));
+        const red = Math.floor(255 * (1 - c));
+        return `rgb(${red},${green},${blue})`;
+    }
+}
+
+function drawField() {
+    const alpha = parseFloat(alphaSlider.value);
+    const lambda = parseFloat(lambdaSlider.value);
+
+    for (let y = 0; y < height; y += resolution) {
+        for (let x = 0; x < width; x += resolution) {
+            const u = getFieldValue(x, y, alpha, lambda);
+            ctx.fillStyle = valueToColor(u);
+            ctx.fillRect(x, y, resolution, resolution);
+        }
+    }
+}
+
+function drawSources() {
+    for (const s of sources) {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, 5, 0, 2 * Math.PI);
+        ctx.fillStyle = "black";
+        ctx.fill();
+    }
+}
+
+function animate() {
+    drawField();
+    drawSources();
+    time += 0.08;
+    requestAnimationFrame(animate);
+}
+
+alphaValue.textContent = Number(alphaSlider.value).toFixed(2);
+lambdaValue.textContent = lambdaSlider.value;
+
+animate();
+</script>
+
+</body>
+</html>
