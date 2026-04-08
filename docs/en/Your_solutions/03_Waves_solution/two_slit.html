@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Two-Slit Interference</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+canvas {
+    border: 1px solid black;
+    background: white;
+}
+
+.controls {
+    margin-bottom: 15px;
+}
+
+label {
+    margin-left: 12px;
+}
+
+span {
+    display: inline-block;
+    min-width: 45px;
+}
+</style>
+</head>
+<body>
+
+<h2>Two-Slit Interference</h2>
+
+<div class="controls">
+    <label for="dSlider">d:</label>
+    <input type="range" id="dSlider" min="20" max="200" step="1" value="80">
+    <span id="dVal">80</span>
+
+    <label for="lambdaSlider">lambda:</label>
+    <input type="range" id="lambdaSlider" min="20" max="120" step="1" value="60">
+    <span id="lambdaVal">60</span>
+</div>
+
+<p>Move the sliders to change the slit separation and wavelength.</p>
+
+<canvas id="canvas" width="700" height="500"></canvas>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+const dSlider = document.getElementById("dSlider");
+const dVal = document.getElementById("dVal");
+
+const lambdaSlider = document.getElementById("lambdaSlider");
+const lambdaVal = document.getElementById("lambdaVal");
+
+const width = canvas.width;
+const height = canvas.height;
+
+let time = 0;
+const A = 1;
+const f = 0.08;
+const resolution = 3;
+
+function getValue(x, y, d, lambda) {
+    const k = 2 * Math.PI / lambda;
+    const omega = 2 * Math.PI * f;
+
+    const x0 = width / 2;
+    const y1 = height / 2 - d / 2;
+    const y2 = height / 2 + d / 2;
+
+    const r1 = Math.sqrt((x - x0) ** 2 + (y - y1) ** 2);
+    const r2 = Math.sqrt((x - x0) ** 2 + (y - y2) ** 2);
+
+    return (A / Math.max(r1, 1)) * Math.sin(k * r1 - omega * time) +
+           (A / Math.max(r2, 1)) * Math.sin(k * r2 - omega * time);
+}
+
+function valueToColor(u) {
+    let c = Math.max(-1, Math.min(1, u * 3));
+
+    if (c >= 0) {
+        const red = Math.floor(255 * c);
+        const green = Math.floor(255 * (1 - c));
+        const blue = Math.floor(255 * (1 - c));
+        return `rgb(${red},${green},${blue})`;
+    } else {
+        c = -c;
+        const blue = Math.floor(255 * c);
+        const green = Math.floor(255 * (1 - c));
+        const red = Math.floor(255 * (1 - c));
+        return `rgb(${red},${green},${blue})`;
+    }
+}
+
+function draw() {
+    const d = parseFloat(dSlider.value);
+    const lambda = parseFloat(lambdaSlider.value);
+
+    for (let y = 0; y < height; y += resolution) {
+        for (let x = 0; x < width; x += resolution) {
+            const u = getValue(x, y, d, lambda);
+            ctx.fillStyle = valueToColor(u);
+            ctx.fillRect(x, y, resolution, resolution);
+        }
+    }
+
+    const x0 = width / 2;
+    const y1 = height / 2 - d / 2;
+    const y2 = height / 2 + d / 2;
+
+    ctx.fillStyle = "black";
+
+    ctx.beginPath();
+    ctx.arc(x0, y1, 5, 0, 2 * Math.PI);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(x0, y2, 5, 0, 2 * Math.PI);
+    ctx.fill();
+}
+
+function animate() {
+    draw();
+    time += 0.08;
+    requestAnimationFrame(animate);
+}
+
+dSlider.oninput = () => {
+    dVal.textContent = dSlider.value;
+};
+
+lambdaSlider.oninput = () => {
+    lambdaVal.textContent = lambdaSlider.value;
+};
+
+dVal.textContent = dSlider.value;
+lambdaVal.textContent = lambdaSlider.value;
+
+animate();
+</script>
+
+</body>
+</html>
