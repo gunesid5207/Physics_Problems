@@ -1,37 +1,55 @@
-# Problem 10: Animation: Wave Sources
+# Problem 11: Two-Slit Interference
 
-We consider wave sources located at positions $\mathbf{r}_0$ on a two-dimensional plane. Each source generates a wave of the form
+We consider two coherent point sources located at positions $\mathbf{r}_1$ and $\mathbf{r}_2$. Each source emits a wave of the form
 
 $$
-u(\mathbf{r},t) = \frac{A}{|\mathbf{r}-\mathbf{r}_0|^\alpha}\sin\left(k|\mathbf{r}-\mathbf{r}_0| - \omega t\right)
+u(\mathbf{r},t) = \frac{A}{|\mathbf{r}-\mathbf{r}_1|}\sin\left(k|\mathbf{r}-\mathbf{r}_1| - \omega t\right) + \frac{A}{|\mathbf{r}-\mathbf{r}_2|}\sin\left(k|\mathbf{r}-\mathbf{r}_2| - \omega t\right)
 $$
 
 where:
-
 - $A$ is the amplitude,
-- $\alpha \in [0,2]$ controls the decay with distance,
 - $k = \frac{2\pi}{\lambda}$ is the wave number,
 - $\omega = 2\pi f$ is the angular frequency,
-- $\mathbf{r}$ is the observation point,
-- $\mathbf{r}_0$ is the source position.
+- $\mathbf{r}_1$ and $\mathbf{r}_2$ are the positions of the slits.
 
-## Superposition principle
+## Interference principle
 
-If there are many sources, the total wave is the sum of the contributions from all of them:
+The total wave is the sum of the contributions from both sources. The resulting pattern depends on the path difference:
 
 $$
-u_{\text{total}}(\mathbf{r},t) = \sum_i \frac{A}{|\mathbf{r}-\mathbf{r}_{0,i}|^\alpha}\sin\left(k|\mathbf{r}-\mathbf{r}_{0,i}| - \omega t\right)
+\Delta r = |\mathbf{r}-\mathbf{r}_1| - |\mathbf{r}-\mathbf{r}_2|
 $$
+
+- constructive interference occurs when $\Delta r = n\lambda$,
+- destructive interference occurs when $\Delta r = \left(n+\frac{1}{2}\right)\lambda$.
+
+## Parameters
+
+The interference pattern depends on:
+
+- slit distance $d = |\mathbf{r}_1 - \mathbf{r}_2|$
+- wavelength $\lambda$
+
+Changing:
+- $d$ modifies the spacing between fringes,
+- $\lambda$ changes the overall pattern scale.
 
 ## Numerical visualization
 
-The HTML animation represents the wave field on a 2D canvas.
+The wave field is visualized on a two-dimensional HTML canvas.
 
-- The user can click on the canvas to add wave sources.
-- Each source contributes to the total displacement.
-- The parameter $\alpha$ can be adjusted in the interval $[0,2]$.
-- The animation updates the superposed wave field in real time.
+In the simulation:
+- two fixed sources represent the slits,
+- the displacement is computed at each point,
+- the resulting interference pattern is displayed using color,
+- the user can change $d$ and $\lambda$ in real time.
 
 ## Final Answer
 
-The attached HTML file implements an interactive simulation of multiple wave sources. It visualizes the superposition of waves emitted by user-defined point sources and allows the distance-decay parameter $\alpha$ to be changed interactively.
+The total wave is the superposition of two coherent sources:
+
+$$
+u(\mathbf{r},t) = \frac{A}{|\mathbf{r}-\mathbf{r}_1|}\sin(k|\mathbf{r}-\mathbf{r}_1| - \omega t) + \frac{A}{|\mathbf{r}-\mathbf{r}_2|}\sin(k|\mathbf{r}-\mathbf{r}_2| - \omega t)
+$$
+
+The HTML animation visualizes the resulting interference pattern and allows interactive control of the slit distance $d$ and wavelength $\lambda$.
