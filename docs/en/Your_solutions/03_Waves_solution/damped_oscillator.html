@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Damped Oscillator</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 20px;
+}
+
+canvas {
+    border: 1px solid black;
+    margin: 10px;
+    background: white;
+}
+
+.controls {
+    margin-bottom: 10px;
+}
+
+.info {
+    margin: 10px 0;
+    font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<h2>Damped Oscillator (RK4)</h2>
+
+<div class="controls">
+    <label for="bSlider">b (damping): </label>
+    <input type="range" id="bSlider" min="0" max="20" step="0.1" value="2">
+    <span id="bValue">2.0</span>
+</div>
+
+<div class="info" id="criticalValue"></div>
+<div class="info" id="regime"></div>
+
+<canvas id="xtCanvas" width="600" height="300"></canvas>
+<canvas id="phaseCanvas" width="600" height="300"></canvas>
+
+<script>
+const m = 1;
+const k = 10;
+
+const canvas1 = document.getElementById("xtCanvas");
+const ctx1 = canvas1.getContext("2d");
+
+const canvas2 = document.getElementById("phaseCanvas");
+const ctx2 = canvas2.getContext("2d");
+
+const slider = document.getElementById("bSlider");
+const bValue = document.getElementById("bValue");
+const regimeText = document.getElementById("regime");
+const criticalValueText = document.getElementById("criticalValue");
+
+const width1 = canvas1.width;
+const height1 = canvas1.height;
+const width2 = canvas2.width;
+const height2 = canvas2.height;
+
+const xMid1 = height1 / 2;
+const xMid2 = width2 / 2;
+const yMid2 = height2 / 2;
+
+const xScale = 100;
+const vScale = 50;
+const timeScale = 1.2;
+
+const criticalB = 2 * Math.sqrt(m * k);
+
+slider.oninput = () => {
+    draw();
+};
+
+function derivatives(x, v, b) {
+    return {
+        dx: v,
+        dv: -(b / m) * v - (k / m) * x
+    };
+}
+
+function rk4(x, v, dt, b) {
+    const k1 = derivatives(x, v, b);
+    const k2 = derivatives(
+        x + 0.5 * dt * k1.dx,
+        v + 0.5 * dt * k1.dv,
+        b
+    );
+    const k3 = derivatives(
+        x + 0.5 * dt * k2.dx,
+        v + 0.5 * dt * k2.dv,
+        b
+    );
+    const k4 = derivatives(
+        x + dt * k3.dx,
+        v + dt * k3.dv,
+        b
+    );
+
+    x += (dt / 6) * (k1.dx + 2 * k2.dx + 2 * k3.dx + k4.dx);
+    v += (dt / 6) * (k1.dv + 2 * k2.dv + 2 * k3.dv + k4.dv);
+
+    return { x, v };
+}
+
+function getRegime(b) {
+    const eps = 0.05;
+    if (Math.abs(b - criticalB) < eps) return "Critically damped";
+    if (b < criticalB) return "Underdamped";
+    return "Overdamped";
+}
+
+function drawAxesXT() {
+    ctx1.beginPath();
+    ctx1.moveTo(40, xMid1);
+    ctx1.lineTo(width1 - 20, xMid1);
+    ctx1.moveTo(40, 20);
+    ctx1.lineTo(40, height1 - 20);
+    ctx1.stroke();
+
+    ctx1.font = "14px Arial";
+    ctx1.fillText("t", width1 - 15, xMid1 - 5);
+    ctx1.fillText("x", 20, 20);
+    ctx1.fillText("0", 25, xMid1 + 15);
+}
+
+function drawAxesPhase() {
+    ctx2.beginPath();
+    ctx2.moveTo(0, yMid2);
+    ctx2.lineTo(width2, yMid2);
+    ctx2.moveTo(xMid2, 0);
+    ctx2.lineTo(xMid2, height2);
+    ctx2.stroke();
+
+    ctx2.font = "14px Arial";
+    ctx2.fillText("x", width2 - 15, yMid2 - 5);
+    ctx2.fillText("v", xMid2 + 8, 15);
+    ctx2.fillText("0", xMid2 + 5, yMid2 + 15);
+}
+
+function draw() {
+    const b = parseFloat(slider.value);
+    bValue.textContent = b.toFixed(1);
+    criticalValueText.textContent = "Critical damping: b_c = " + criticalB.toFixed(2);
+    regimeText.textContent = "Regime: " + getRegime(b);
+
+    ctx1.clearRect(0, 0, width1, height1);
+    ctx2.clearRect(0, 0, width2, height2);
+
+    drawAxesXT();
+    drawAxesPhase();
+
+    let x = 1;
+    let v = 0;
+
+    const dt = 0.02;
+    const steps = 500;
+    const data = [];
+
+    for (let i = 0; i < steps; i++) {
+        data.push({ t: i * dt, x, v });
+        const res = rk4(x, v, dt, b);
+        x = res.x;
+        v = res.v;
+    }
+
+    // x(t) graph
+    ctx1.beginPath();
+    data.forEach((p, i) => {
+        const px = 40 + p.t * 50 * timeScale;
+        const py = xMid1 - p.x * xScale;
+        if (i === 0) ctx1.moveTo(px, py);
+        else ctx1.lineTo(px, py);
+    });
+    ctx1.stroke();
+
+    // phase portrait
+    ctx2.beginPath();
+    data.forEach((p, i) => {
+        const px = xMid2 + p.x * xScale;
+        const py = yMid2 - p.v * vScale;
+        if (i === 0) ctx2.moveTo(px, py);
+        else ctx2.lineTo(px, py);
+    });
+    ctx2.stroke();
+}
+
+draw();
+</script>
+
+</body>
+</html>
