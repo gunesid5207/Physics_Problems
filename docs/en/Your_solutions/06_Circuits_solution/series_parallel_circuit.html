@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Series and Parallel Circuit Animation</title>
+
+<style>
+  body {
+    margin: 0;
+    background: #101010;
+    color: #eee;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+
+  header {
+    padding: 24px 16px;
+    border-bottom: 1px solid #333;
+  }
+
+  h1 {
+    margin: 0 0 8px 0;
+    font-size: 30px;
+  }
+
+  .subtitle {
+    color: #bbb;
+    font-size: 16px;
+  }
+
+  .container {
+    max-width: 950px;
+    margin: 28px auto;
+    padding: 0 20px;
+  }
+
+  button {
+    background: #222;
+    color: #eee;
+    border: 1px solid #555;
+    padding: 12px 22px;
+    margin: 6px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  button.active {
+    background: #00cfe8;
+    color: #000;
+    border-color: #00cfe8;
+  }
+
+  canvas {
+    display: block;
+    margin: 24px auto;
+    background: #000;
+    border: 1px solid #333;
+  }
+
+  .results {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+
+  .card {
+    background: #181818;
+    border: 1px solid #333;
+    padding: 16px 22px;
+    min-width: 230px;
+    text-align: left;
+  }
+
+  .label {
+    color: #aaa;
+    font-size: 14px;
+  }
+
+  .value {
+    font-size: 22px;
+    margin-top: 6px;
+  }
+
+  .formula {
+    margin-top: 18px;
+    color: #bbb;
+    font-size: 15px;
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>Series and Parallel Circuit Animation</h1>
+  <div class="subtitle">
+    R₁ = 15 Ω, R₂ = 30 Ω, R₃ = 50 Ω, Battery = 12 V
+  </div>
+</header>
+
+<div class="container">
+
+  <button id="seriesBtn" class="active">Series Circuit</button>
+  <button id="parallelBtn">Parallel Circuit</button>
+
+  <canvas id="canvas" width="850" height="330"></canvas>
+
+  <div class="results">
+    <div class="card">
+      <div class="label">Mode</div>
+      <div class="value" id="modeText"></div>
+    </div>
+
+    <div class="card">
+      <div class="label">Equivalent Resistance</div>
+      <div class="value" id="resistanceText"></div>
+    </div>
+
+    <div class="card">
+      <div class="label">Battery Current</div>
+      <div class="value" id="currentText"></div>
+    </div>
+  </div>
+
+  <div class="formula" id="formulaText"></div>
+
+</div>
+
+<script>
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+const seriesBtn = document.getElementById("seriesBtn");
+const parallelBtn = document.getElementById("parallelBtn");
+
+const modeText = document.getElementById("modeText");
+const resistanceText = document.getElementById("resistanceText");
+const currentText = document.getElementById("currentText");
+const formulaText = document.getElementById("formulaText");
+
+const V = 12;
+const R1 = 15;
+const R2 = 30;
+const R3 = 50;
+
+let mode = "series";
+let t = 0;
+
+function wire(x1, y1, x2, y2) {
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.strokeStyle = "#ddd";
+  ctx.lineWidth = 3;
+  ctx.stroke();
+}
+
+function resistor(x, y, text) {
+  ctx.fillStyle = "#0b0b0b";
+  ctx.strokeStyle = "#00e5ff";
+  ctx.lineWidth = 3;
+  ctx.fillRect(x, y, 110, 44);
+  ctx.strokeRect(x, y, 110, 44);
+
+  ctx.fillStyle = "#fff";
+  ctx.font = "20px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(text, x + 55, y + 29);
+}
+
+function battery(x, y) {
+  ctx.strokeStyle = "#ffd54f";
+  ctx.lineWidth = 4;
+
+  ctx.beginPath();
+  ctx.moveTo(x, y - 40);
+  ctx.lineTo(x, y + 40);
+  ctx.stroke();
+
+  ctx.beginPath();
+  ctx.moveTo(x + 22, y - 25);
+  ctx.lineTo(x + 22, y + 25);
+  ctx.stroke();
+
+  ctx.fillStyle = "#ffd54f";
+  ctx.font = "20px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("12 V", x + 10, y + 70);
+}
+
+function drawLabel(text, x, y) {
+  ctx.fillStyle = "#bbb";
+  ctx.font = "17px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(text, x, y);
+}
+
+function drawMovingDot(x, y, radius = 5) {
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.fillStyle = "#ff4081";
+  ctx.fill();
+}
+
+function interpolatePath(points, progress) {
+  let lengths = [];
+  let totalLength = 0;
+
+  for (let i = 0; i < points.length - 1; i++) {
+    const dx = points[i + 1].x - points[i].x;
+    const dy = points[i + 1].y - points[i].y;
+    const length = Math.sqrt(dx * dx + dy * dy);
+    lengths.push(length);
+    totalLength += length;
+  }
+
+  let distance = progress * totalLength;
+
+  for (let i = 0; i < lengths.length; i++) {
+    if (distance <= lengths[i]) {
+      const ratio = distance / lengths[i];
+      return {
+        x: points[i].x + (points[i + 1].x - points[i].x) * ratio,
+        y: points[i].y + (points[i + 1].y - points[i].y) * ratio
+      };
+    }
+    distance -= lengths[i];
+  }
+
+  return points[points.length - 1];
+}
+
+function drawDotsOnPath(points, count, speed) {
+  for (let i = 0; i < count; i++) {
+    const progress = ((t * speed) + i / count) % 1;
+    const p = interpolatePath(points, progress);
+    drawMovingDot(p.x, p.y);
+  }
+}
+
+function drawSeries() {
+  const y = 165;
+
+  battery(90, y);
+
+  wire(112, y, 220, y);
+  resistor(220, y - 22, "R₁ 15Ω");
+
+  wire(330, y, 390, y);
+  resistor(390, y - 22, "R₂ 30Ω");
+
+  wire(500, y, 560, y);
+  resistor(560, y - 22, "R₃ 50Ω");
+
+  wire(670, y, 760, y);
+  wire(760, y, 760, 260);
+  wire(760, 260, 90, 260);
+  wire(90, 260, 90, 205);
+  wire(90, 125, 90, 70);
+  wire(90, 70, 760, 70);
+  wire(760, 70, 760, y);
+
+  const path = [
+    {x: 112, y: 165},
+    {x: 760, y: 165},
+    {x: 760, y: 260},
+    {x: 90, y: 260},
+    {x: 90, y: 70},
+    {x: 760, y: 70},
+    {x: 760, y: 165}
+  ];
+
+  drawDotsOnPath(path, 10, 0.004);
+
+  drawLabel("Series: same current flows through every resistor.", 425, 305);
+}
+
+function drawParallel() {
+  const left = 210;
+  const right = 650;
+
+  battery(90, 165);
+
+  wire(112, 165, left, 165);
+
+  wire(left, 90, left, 240);
+  wire(right, 90, right, 240);
+
+  wire(left, 90, 330, 90);
+  resistor(330, 68, "R₁ 15Ω");
+  wire(440, 90, right, 90);
+
+  wire(left, 165, 330, 165);
+  resistor(330, 143, "R₂ 30Ω");
+  wire(440, 165, right, 165);
+
+  wire(left, 240, 330, 240);
+  resistor(330, 218, "R₃ 50Ω");
+  wire(440, 240, right, 240);
+
+  wire(right, 165, 760, 165);
+  wire(760, 165, 760, 280);
+  wire(760, 280, 90, 280);
+  wire(90, 280, 90, 205);
+  wire(90, 125, 90, 50);
+  wire(90, 50, 760, 50);
+  wire(760, 50, 760, 165);
+
+  const topBranch = [
+    {x: 112, y: 165},
+    {x: left, y: 165},
+    {x: left, y: 90},
+    {x: right, y: 90},
+    {x: right, y: 165},
+    {x: 760, y: 165},
+    {x: 760, y: 280},
+    {x: 90, y: 280},
+    {x: 90, y: 50},
+    {x: 760, y: 50},
+    {x: 760, y: 165}
+  ];
+
+  const middleBranch = [
+    {x: 112, y: 165},
+    {x: left, y: 165},
+    {x: right, y: 165},
+    {x: 760, y: 165},
+    {x: 760, y: 280},
+    {x: 90, y: 280},
+    {x: 90, y: 50},
+    {x: 760, y: 50},
+    {x: 760, y: 165}
+  ];
+
+  const bottomBranch = [
+    {x: 112, y: 165},
+    {x: left, y: 165},
+    {x: left, y: 240},
+    {x: right, y: 240},
+    {x: right, y: 165},
+    {x: 760, y: 165},
+    {x: 760, y: 280},
+    {x: 90, y: 280},
+    {x: 90, y: 50},
+    {x: 760, y: 50},
+    {x: 760, y: 165}
+  ];
+
+  drawDotsOnPath(topBranch, 5, 0.006);
+  drawDotsOnPath(middleBranch, 5, 0.006);
+  drawDotsOnPath(bottomBranch, 5, 0.006);
+
+  drawLabel("Parallel: current splits into separate branches.", 425, 310);
+}
+
+function updateValues() {
+  let Req;
+  let I;
+
+  if (mode === "series") {
+    Req = R1 + R2 + R3;
+    I = V / Req;
+
+    modeText.textContent = "Series";
+    resistanceText.textContent = Req.toFixed(2) + " Ω";
+    currentText.textContent = I.toFixed(3) + " A";
+    formulaText.textContent = "Formula: Req = R₁ + R₂ + R₃";
+  } else {
+    Req = 1 / (1 / R1 + 1 / R2 + 1 / R3);
+    I = V / Req;
+
+    modeText.textContent = "Parallel";
+    resistanceText.textContent = Req.toFixed(2) + " Ω";
+    currentText.textContent = I.toFixed(3) + " A";
+    formulaText.textContent = "Formula: 1/Req = 1/R₁ + 1/R₂ + 1/R₃";
+  }
+}
+
+function render() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (mode === "series") {
+    drawSeries();
+  } else {
+    drawParallel();
+  }
+
+  updateValues();
+
+  t += 1;
+  requestAnimationFrame(render);
+}
+
+seriesBtn.addEventListener("click", () => {
+  mode = "series";
+  seriesBtn.classList.add("active");
+  parallelBtn.classList.remove("active");
+});
+
+parallelBtn.addEventListener("click", () => {
+  mode = "parallel";
+  parallelBtn.classList.add("active");
+  seriesBtn.classList.remove("active");
+});
+
+render();
+</script>
+
+</body>
+</html>
