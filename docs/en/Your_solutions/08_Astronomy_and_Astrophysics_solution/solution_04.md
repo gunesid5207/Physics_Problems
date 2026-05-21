@@ -1,5 +1,11 @@
 # 4. Geostationary Orbit
 
+## Simulation
+
+[Open the geostationary orbit simulation](geostationary_orbit_simulation.html)
+
+---
+
 A geostationary satellite must stay above the same point on Earth.
 
 Therefore, its orbital period must equal Earth's rotation period:
