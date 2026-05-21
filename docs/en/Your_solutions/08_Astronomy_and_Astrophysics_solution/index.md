@@ -1,14 +1,14 @@
-# 08_Astronomy_and_Astrophysics_solutions
+# Section 9: Astronomy and Astrophysics
 
 ## Solutions
 
-- [Solution 1](solution_01.md)
-- [Solution 2](solution_02.md)
-- [Solution 3](solution_03.md)
-- [Solution 4](solution_04.md)
-- [Solution 5](solution_05.md)
-- [Solution 6](solution_06.md)
-- [Solution 7](solution_07.md)
-- [Solution 8](solution_08.md)
-- [Solution 9](solution_09.md)
-- [Solution 10](solution_10.md)
+1. [Rotational Velocity](solution_01.md)
+2. [Orbital Mechanics](solution_02.md)
+3. [Microgravity](solution_03.md)
+4. [Geostationary Orbit](solution_04.md)
+5. [Escape Velocity](solution_05.md)
+6. [Solar Gravity](solution_06.md)
+7. [Megastructures](solution_07.md)
+8. [Interplanetary Travel](solution_08.md)
+9. [Size and Distance of the Sun](solution_09.md)
+10. [Measuring the Height of the Atmosphere](solution_10.md)
