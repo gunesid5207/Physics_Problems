@@ -1,14 +1,14 @@
-# 09_Cosmology_solutions
+# Section 9: Cosmology
 
 ## Solutions
 
-- [Solution 1](solution_01.md)
-- [Solution 2](solution_02.md)
-- [Solution 3](solution_03.md)
-- [Solution 4](solution_04.md)
-- [Solution 5](solution_05.md)
-- [Solution 6](solution_06.md)
-- [Solution 7](solution_07.md)
-- [Solution 8](solution_08.md)
-- [Solution 9](solution_09.md)
-- [Solution 10](solution_10.md)
+1. [Cosmic Chronology](solution_01.md)
+2. [Cosmic Temperatures](solution_02.md)
+3. [Cosmic Sizes](solution_03.md)
+4. [Hubble's Law and Galactic Year](solution_04.md)
+5. [Galactic Collision](solution_05.md)
+6. [Galactic Communication](solution_06.md)
+7. [Galactic Trivia](solution_07.md)
+8. [Cosmic Expansion](solution_08.md)
+9. [Doppler Effect](solution_09.md)
+10. [Cosmic Microwave Background](solution_10.md)
